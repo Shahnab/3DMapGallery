@@ -31,6 +31,15 @@ export default function App() {
             combinedCities.sort();
             data[chinaIndex] = { ...data[chinaIndex], cities: combinedCities };
           }
+
+          // Inject missing cities not provided by the API
+          const brazilIndex = data.findIndex((c: any) => c.country === "Brazil");
+          if (brazilIndex !== -1) {
+            const missingBrazilCities = ["Sao Jose dos Campos"];
+            const merged = Array.from(new Set([...data[brazilIndex].cities, ...missingBrazilCities]));
+            merged.sort();
+            data[brazilIndex] = { ...data[brazilIndex], cities: merged };
+          }
           
           const sorted = data
             .filter((c: any) => !c.country.includes("Vatican") && !c.country.includes("Holy See") && c.country !== "Taiwan")
